@@ -2,9 +2,9 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { OnboardingImages } from "../const/images";
 import Swiper from "react-native-swiper";
-import { PRIMARY_COLOR } from "../const/color.";
+import { PRIMARY_COLOR, PRIMARY_VARIENT_DARK_COLOR, WHITE_COLOR } from "../const/color.";
 
-export default function Welcome() {
+export default function Welcome({ navigation }) {
 
     const OnboardList = [
         { id: 1, title: "Attendance", desc: "Track your work hours and stay productive.", image: OnboardingImages.onBoard1 },
@@ -45,10 +45,13 @@ export default function Welcome() {
                 justifyContent: "center",
                 alignItems: "center"
             }}>
-                <TouchableOpacity style={styles.buttomStyle}>
+                <TouchableOpacity
+                    style={styles.buttomStyle}
+                    onPress={() => { navigation.navigate("SignUp") }}
+                >
                     <Text style={styles.textGetStartedStyle}>Get Started</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => { navigation.navigate("SignIn") }}>
                     <Text style={{ fontSize: 18, color: "grey", fontSize: 16 }}>Skip</Text>
                 </TouchableOpacity>
             </View>
@@ -77,16 +80,18 @@ const styles = StyleSheet.create({
         marginHorizontal: 15
     },
     buttomStyle: {
-        backgroundColor: PRIMARY_COLOR,
+        backgroundColor: PRIMARY_VARIENT_DARK_COLOR,
         paddingHorizontal: 100,
         justifyContent: "center",
         alignItems: "center",
-        paddingVertical: 20,
+        height: 60,
         borderRadius: 20,
         marginBottom: 20
     },
     textGetStartedStyle: {
         fontFamily: "Poppins-SemiBold",
+        fontSize: 18,
+        color: WHITE_COLOR
     }
 
 });

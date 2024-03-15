@@ -1,8 +1,17 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from "@react-navigation/drawer";
+import { AntDesign, Entypo, Feather, FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { AppBaseProvider } from "../providers/AppBaseContext";
+import { NavigationContainer } from "@react-navigation/native";
+import Home from "./Home";
+import Contact from "./Contact";
+import Message from "./Message";
+import Notification from "./Notification";
+import More from "./More";
+import { PRIMARY_VARIENT_DARK_COLOR } from "../const/color.";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -13,7 +22,7 @@ function AppMenu() {
         <Tab.Navigator
             initialRouteName="Home"
             screenOptions={{
-                tabBarActiveTintColor: "#22534F",
+                tabBarActiveTintColor: PRIMARY_VARIENT_DARK_COLOR,
                 tabBarStyle: {
                     borderRadius: 0,
                     backgroundColor: "#ffffff",
@@ -40,40 +49,52 @@ function AppMenu() {
             />
 
             <Tab.Screen
-                name="Events"
-                component={Events}
+                name="Contact"
+                component={Contact}
                 options={{
-                    tabBarLabel: 'Events',
+                    tabBarLabel: 'Contact',
                     headerShown: false,
                     tabBarShowLabel: true,
                     tabBarIcon: ({ color, size }) => (
                         <View>
-                            <Entypo name="calendar" color={color} size={size} />
+                            <AntDesign name="contacts" color={color} size={size} />
                         </View>
                     ),
                 }}
             />
             <Tab.Screen
-                name="Gallery"
-                component={Gallery}
+                name="Message"
+                component={Message}
                 options={{
-                    tabBarLabel: 'Media',
+                    tabBarLabel: 'Message',
                     tabBarShowLabel: true,
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="albums" color={color} size={size} />
+                        <Entypo name="message" color={color} size={size} />
                     ),
                 }}
             />
             <Tab.Screen
-                name="Visit"
-                component={Visit}
+                name="Notification"
+                component={Notification}
                 options={{
-                    tabBarLabel: 'Visit',
+                    tabBarLabel: 'Notification',
                     tabBarShowLabel: true,
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name="map-marked-alt" color={color} size={size} />
+                        <AntDesign name="notification" color={color} size={size} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="More"
+                component={More}
+                options={{
+                    tabBarLabel: 'More',
+                    tabBarShowLabel: true,
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => (
+                        <Feather name="more-vertical" color={color} size={size} />
                     ),
                 }}
             />
@@ -81,11 +102,97 @@ function AppMenu() {
     );
 }
 
+function LeftPanelDrawerContent({ navigation }) {
+    return (
+        <DrawerContentScrollView style={{ flex: 1 }}>
+
+            <DrawerItem
+                label={"Profile"}
+                icon={({ focused, color, size }) =>
+                    <FontAwesome5 name="user" size={size} color={color} />
+                }
+            />
+            <DrawerItem
+                label={"Attendance"}
+                icon={({ focused, color, size }) =>
+                    <AntDesign name="clockcircle" size={24} color="black" />
+                }
+            />
+            <DrawerItem
+                label={"Tasks"}
+                icon={({ focused, color, size }) =>
+                    <FontAwesome5 name="tasks" size={size} color={color} />
+                }
+            />
+            <DrawerItem
+                label={"Location"}
+                icon={({ focused, color, size }) =>
+                    <Entypo name="location" size={size} color={color} />
+                }
+            />
+            <DrawerItem
+                label={"My Files"}
+                icon={({ focused, color, size }) =>
+                    <FontAwesome name="files-o" size={size} color={color} />
+                }
+            />
+            <DrawerItem
+                label={"Calender"}
+                icon={({ focused, color, size }) =>
+                    <AntDesign name="calendar" size={size} color={color} />
+                }
+            />
+            <DrawerItem
+                label={"Health & Fitness"}
+                icon={({ focused, color, size }) =>
+                    <Ionicons name="fitness" size={size} color={color} />
+                }
+            />
+            <DrawerItem
+                label={"Incidents & Accidents"}
+                icon={({ focused, color, size }) =>
+                    <MaterialIcons name="pending-actions" size={size} color={color} />
+                }
+            />
+            <DrawerItem
+                label={"Events & Trainings"}
+                icon={({ focused, color, size }) =>
+                    <MaterialCommunityIcons name="google-classroom" size={size} color={color} />
+                }
+            />
+            <DrawerItem
+                label={"Settings & Support"}
+                icon={({ focused, color, size }) =>
+                    <MaterialIcons name="contact-support" size={size} color={color} />
+                }
+            />
+            <DrawerItem
+                label={"Logout"}
+                icon={({ focused, color, size }) =>
+                    <MaterialIcons name="logout" size={size} color={color} />
+                }
+            />
+
+        </DrawerContentScrollView>
+    )
+}
+
 export default function Index() {
     return (
-        <View>
-            <Text>Index</Text>
-        </View>
+        <AppBaseProvider>
+            <NavigationContainer independent={true}>
+                <Drawer.Navigator
+                    drawerContent={(props) => <LeftPanelDrawerContent {...props} />}
+                    screenOptions={
+                        { headerShown: false }
+                    }
+                >
+                    <Drawer.Screen name="MainMenu" component={AppMenu} />
+
+
+                </Drawer.Navigator>
+            </NavigationContainer>
+        </AppBaseProvider >
     );
 }
 

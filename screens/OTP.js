@@ -3,25 +3,21 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { BLACK_COLOR, PRIMARY_COLOR, PRIMARY_VARIENT_COLOR, PRIMARY_VARIENT_DARK_COLOR } from "../const/color.";
-import { headerFontSize, normalFontSize } from "../const/values";
+import { buttonTextFontSize, headerFontSize, normalFontSize, subHheaderFontSize } from "../const/values";
+import OtpTextInput from "react-native-text-input-otp";
 
-export default function SignIn({ navigation }) {
-    const [isPasaswordShow, setIsPasswordShow] = useState(false)
-
-    const handleLogin = () => {
-
-    }
-
+export default function OTP() {
+    const [otp, setOtp] = useState("");
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }} >
             <View style={{ flex: 1, backgroundColor: "#fff" }}>
 
                 <View style={{ alignItems: "center" }}>
                     <Image
-                        source={require("../assets/EPM.png")}
+                        source={require("../assets/otp.png")}
                         style={{
                             height: 200,
-                            width: 200,
+                            width: "60%",
                             margin: 20,
                         }}></Image>
                 </View>
@@ -31,73 +27,62 @@ export default function SignIn({ navigation }) {
                         <Text style={{
                             fontFamily: "Poppins-SemiBold",
                             color: PRIMARY_VARIENT_DARK_COLOR,
-                            fontSize: headerFontSize,
+                            fontSize: subHheaderFontSize,
                             alignItems: "center"
                         }}>
-                            Welcome Back</Text>
+                            Verification Code</Text>
                         <Text style={{
                             fontFamily: "Poppins-Medium",
                             color: "grey",
-                            fontSize: 14,
-                            alignItems: "center"
+                            fontSize: 16,
+                            alignItems: "center",
+                            textAlign: "center"
                         }}>
-                            Login to your account</Text>
+                            Please enter the verification code sent to your mobile number.</Text>
                     </View>
-                    <View style={{ marginTop: 10, ...styles.textFieldWrapper }}>
-                        <TextInput
-                            style={styles.textField}
-                            placeholder="Email Address/Username"
-                            placeholderTextColor={"grey"}
-                            fontSize={16}
-                            keyboardType="email-address"
-                        />
-                    </View>
-                    <View style={styles.textFieldWrapper}>
-                        <TextInput
-                            style={styles.textField}
-                            placeholder="Password"
-                            fontSize={16}
-                            placeholderTextColor={"grey"}
-                            secureTextEntry={isPasaswordShow}
-                        />
-                        <TouchableOpacity
-                            style={{ position: "absolute", right: 12 }}
-                            onPress={() => setIsPasswordShow(!isPasaswordShow)}
-                        >
-                            {
-                                isPasaswordShow ?
-                                    <Ionicons name="eye-off" size={24} color={PRIMARY_VARIENT_DARK_COLOR}></Ionicons>
-                                    :
-                                    <Ionicons name="eye" size={24} color={PRIMARY_VARIENT_DARK_COLOR}></Ionicons>
-                            }
 
-                        </TouchableOpacity>
-                    </View>
-                    <Pressable>
+                    <OtpTextInput
+                        otp={otp}
+                        digits={6}
+                        setOtp={setOtp}
+                        fontStyle={{ fontFamily: "Poppins-SemiBold" }}
+                        style={{ borderRadius: 0, borderTopWidth: 0, borderRightWidth: 0, borderLeftWidth: 0, height: 45 }}
+                        focusedStyle={{ borderColor: "#5cb85c", borderBottomWidth: 2 }}
+                    />
+                    <Text style={{
+                        fontFamily: "Poppins-Medium",
+                        color: "grey",
+                        fontSize: 14,
+                        alignItems: "center",
+                        textAlign: "center"
+                    }}>
+                        Resend OTP in 0:30</Text>
+                    <TouchableOpacity
+                        style={styles.loginButtonOutlinedStyle}
+                    >
                         <Text style={{
-                            textAlign: "right",
-                            fontFamily: "Poppins-SemiBold",
-                            marginLeft: 10,
-                            color: PRIMARY_VARIENT_DARK_COLOR
+                            fontFamily: "Poppins-Medium",
+                            color: "grey",
+                            fontSize: buttonTextFontSize
                         }}>
-                            Forgot Password?
-                        </Text></Pressable>
+                            Resend
+                        </Text>
+                    </TouchableOpacity >
 
                     <TouchableOpacity
                         style={styles.loginButtonStyle}
-                        onPress={handleLogin}
                     >
                         <Text style={{
-                            fontFamily: "Poppins-SemiBold",
+                            fontFamily: "Poppins-Medium",
                             color: "#fff",
-                            fontSize: 18
+                            fontSize: buttonTextFontSize
                         }}>
-                            Login
+                            Verify & Create
                         </Text>
                     </TouchableOpacity >
                     <View style={{
                         flexDirection: "row",
-                        justifyContent: "center",
+                        justifyContent: "flex-start",
                         alignItems: "flex-end",
                         marginVertical: 20
                     }}>
@@ -106,9 +91,9 @@ export default function SignIn({ navigation }) {
                             color: BLACK_COLOR,
                             fontFamily: "Poppins-Medium"
                         }}>
-                            Do`nt have an account?
+                            Already have an account?
                         </Text>
-                        <Pressable onPress={() => navigation.navigate("SignUp")}>
+                        <Pressable onPress={() => navigation.navigate("SignIn")}>
                             <Text style={{
                                 textAlign: "center",
                                 fontFamily: "Poppins-Bold",
@@ -116,7 +101,7 @@ export default function SignIn({ navigation }) {
                                 marginLeft: 10,
                                 fontSize: normalFontSize
                             }}>
-                                Register Now
+                                Log In
                             </Text></Pressable>
                     </View>
                 </View>
@@ -149,19 +134,29 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: "100%",
         justifyContent: 'center',
-        height: 60,
-        borderRadius: 15,
-        marginVertical: 20
+        height: 50,
+        borderRadius: 10,
+        marginVertical: 10
 
     },
-    loginWrapperStyle: {
+    loginButtonOutlinedStyle: {
+        borderColor: "grey",
         borderWidth: 1,
+        alignItems: 'center',
+        width: "100%",
+        justifyContent: 'center',
+        height: 50,
+        borderRadius: 10,
+        marginVertical: 10,
+        marginTop: 20
+    },
+    loginWrapperStyle: {
         padding: 20,
         borderRadius: 5,
         paddingVertical: 20,
-        backgroundColor: "#FCFCFC",
-        borderColor: "#F3F3F3",
+        backgroundColor: "#fff",
         paddingBottom: 80,
-        margin: 10
+        margin: 10,
+        gap: 10
     }
 });
