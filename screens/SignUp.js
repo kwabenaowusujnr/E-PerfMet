@@ -4,15 +4,42 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { BLACK_COLOR, PRIMARY_COLOR, PRIMARY_VARIENT_COLOR, PRIMARY_VARIENT_DARK_COLOR } from "../const/color.";
 import { headerFontSize, normalFontSize } from "../const/values";
+import PhoneNumberValidator from "../components/PhoneNumberValidator";
 
 export default function SignUp({ navigation }) {
-    const [isPasaswordShow, setIsPasswordShow] = useState(false)
+    const [isPasaswordShow, setIsPasswordShow] = useState(true)
     const [isConfirmPasaswordShow, setIsConfirmPasswordShow] = useState(true)
 
-    const handleLogin = () => {
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [email, setEmail] = useState("");
+    const [userName, setUserName] = useState("");
+    const [pSID, setPSID] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
+    const handleSubmit = () => {
+        if (!email || !phoneNumber || !userName || !pSID || !password || !confirmPassword) {
+            alert("All fields are required");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+
+        navigation.navigate("OTP", {
+            email: email,
+            phoneNumber: phoneNumber,
+            userName: userName,
+            pSID: pSID,
+            password: password
+        })
     }
 
+    const getPhoneNumber = (phoneNo) => {
+        setPhoneNumber(phoneNo);
+    }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }} >
             <View style={{ backgroundColor: "#fff" }}>
@@ -41,16 +68,19 @@ export default function SignUp({ navigation }) {
                             placeholderTextColor={"grey"}
                             fontSize={16}
                             keyboardType="email-address"
+                            value={email}
+                            onChangeText={setEmail}
                         />
                     </View>
-                    <View style={{ marginTop: 10, ...styles.textFieldWrapper }}>
-                        <TextInput
+                    <View style={{ marginTop: 10, ...styles.textFieldWrapper, paddingLeft: 1 }}>
+                        {/* <TextInput
                             style={styles.textField}
                             placeholder="Phone Number"
                             placeholderTextColor={"grey"}
                             fontSize={16}
                             keyboardType="phone-pad"
-                        />
+                        /> */}
+                        <PhoneNumberValidator phoneNumber={phoneNumber} getPhoneNumber={getPhoneNumber} />
                     </View>
 
                     <View style={{ marginTop: 10, ...styles.textFieldWrapper }}>
@@ -59,7 +89,9 @@ export default function SignUp({ navigation }) {
                             placeholder="User Name"
                             placeholderTextColor={"grey"}
                             fontSize={16}
-                            keyboardType="email-address"
+                            keyboardType="default"
+                            value={userName}
+                            onChangeText={setUserName}
                         />
                     </View>
 
@@ -69,7 +101,9 @@ export default function SignUp({ navigation }) {
                             placeholder="Public Service ID"
                             placeholderTextColor={"grey"}
                             fontSize={16}
-                            keyboardType="email-address"
+                            keyboardType="default"
+                            value={pSID}
+                            onChangeText={setPSID}
                         />
                     </View>
 
@@ -80,6 +114,8 @@ export default function SignUp({ navigation }) {
                             fontSize={16}
                             placeholderTextColor={"grey"}
                             secureTextEntry={isPasaswordShow}
+                            value={password}
+                            onChangeText={setPassword}
                         />
                         <TouchableOpacity
                             style={{ position: "absolute", right: 12 }}
@@ -100,7 +136,10 @@ export default function SignUp({ navigation }) {
                             style={styles.textField}
                             placeholder="Confirm Password"
                             secureTextEntry={isConfirmPasaswordShow}
-                            placeholderTextColor={"grey"} />
+                            placeholderTextColor={"grey"}
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                        />
                         <TouchableOpacity
                             style={{ position: "absolute", right: 12 }}
                             onPress={() => setIsConfirmPasswordShow(!isConfirmPasaswordShow)}>
@@ -118,7 +157,7 @@ export default function SignUp({ navigation }) {
 
                     <TouchableOpacity
                         style={styles.loginButtonStyle}
-                        onPress={() => { navigation.navigate("OTP") }}
+                        onPress={handleSubmit}
                     >
                         <Text style={{
                             fontFamily: "Poppins-SemiBold",

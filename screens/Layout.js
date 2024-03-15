@@ -20,13 +20,13 @@ export default function Layout() {
                         headerShown: false
                     }
                 }>
-                <Stack.Screen name="HomeScreen" component={Index} />
 
                 <Stack.Screen name="Welcome" component={Welcome} />
                 <Stack.Screen name="SignIn" component={SignIn} />
                 <Stack.Screen name="SignUp" component={SignUp} />
                 <Stack.Screen name="OTP" component={OTP} />
 
+                <Stack.Screen name="HomeScreen" component={Index} />
 
             </Stack.Navigator>
             <StatusBar style="dark" />

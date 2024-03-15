@@ -1,15 +1,90 @@
-import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { BLACK_COLOR, PRIMARY_COLOR, PRIMARY_VARIENT_COLOR, PRIMARY_VARIENT_DARK_COLOR } from "../const/color.";
 import { buttonTextFontSize, headerFontSize, normalFontSize, subHheaderFontSize } from "../const/values";
 import OtpTextInput from "react-native-text-input-otp";
+import { doSendOTP, doUserRegistration } from "../providers/ApiProvider";
 
-export default function OTP() {
+export default function OTP({ route, navigation }) {
+    const [resendTimer, setResendTimer] = useState(60);
+    const {
+        email,
+        phoneNumber,
+        userName,
+        pSID,
+        password
+    } = route.params;
+    const [isLoading, setIsLoading] = useState(false);
     const [otp, setOtp] = useState("");
+
+    const sendOTP = async () => {
+        setResendTimer(60);
+        const req = await doSendOTP(phoneNumber);
+    }
+
+    useEffect(() => {
+        sendOTP();
+        console.log("useEffect");
+
+        const interval = setInterval(() => {
+            // Decrement timer every second
+            setResendTimer((prevTimer) => prevTimer - 1);
+        }, 1000);
+
+        // Clear interval when component unmounts or resendTimer reaches 0
+        return () => clearInterval(interval);
+
+    }, []);
+
+    const formatTime = () => {
+        if (resendTimer <= 0) {
+            return '00:00'; // Return '00:00' when timer reaches or goes below 0
+        }
+
+        const minutes = Math.floor(resendTimer / 60);
+        const seconds = resendTimer % 60;
+        return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+    };
+
+    const registerUser = async () => {
+        setIsLoading(true);
+        try {
+
+            const response = await doUserRegistration(email, password, phoneNumber, pSID, otp);
+
+        } catch (error) {
+
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }} >
+            {
+                isLoading &&
+                <ActivityIndicator
+                    size={"large"}
+                    color={PRIMARY_VARIENT_DARK_COLOR}
+                    style={{
+                        flex: 1,
+                        marginTop: 10,
+                        position: "absolute",
+                        elevation: 0,
+                        backgroundColor: "#fff",
+                        opacity: 0.7,
+                        width: "100%",
+                        height: "100%",
+                        zIndex: 10000
+                    }}
+
+
+                />
+            }
+
+
             <View style={{ flex: 1, backgroundColor: "#fff" }}>
 
                 <View style={{ alignItems: "center" }}>
@@ -39,6 +114,13 @@ export default function OTP() {
                             textAlign: "center"
                         }}>
                             Please enter the verification code sent to your mobile number.</Text>
+
+                        <Text style={{
+                            fontFamily: "Poppins-SemiBold",
+                            color: BLACK_COLOR,
+                            fontSize: 18,
+                            alignItems: "center"
+                        }}>{phoneNumber}</Text>
                     </View>
 
                     <OtpTextInput
@@ -56,9 +138,12 @@ export default function OTP() {
                         alignItems: "center",
                         textAlign: "center"
                     }}>
-                        Resend OTP in 0:30</Text>
+                        Resend OTP in {formatTime()}
+                    </Text>
                     <TouchableOpacity
                         style={styles.loginButtonOutlinedStyle}
+                        onPress={sendOTP} // Call resendOTP function onPress
+                        disabled={resendTimer > 0} // Disable button if timer is still running
                     >
                         <Text style={{
                             fontFamily: "Poppins-Medium",
@@ -67,10 +152,11 @@ export default function OTP() {
                         }}>
                             Resend
                         </Text>
-                    </TouchableOpacity >
+                    </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.loginButtonStyle}
+                        onPress={registerUser}
                     >
                         <Text style={{
                             fontFamily: "Poppins-Medium",

@@ -12,6 +12,9 @@ import Message from "./Message";
 import Notification from "./Notification";
 import More from "./More";
 import { PRIMARY_VARIENT_DARK_COLOR } from "../const/color.";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+import OTP from "./OTP";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -171,6 +174,7 @@ function LeftPanelDrawerContent({ navigation }) {
                 icon={({ focused, color, size }) =>
                     <MaterialIcons name="logout" size={size} color={color} />
                 }
+                onPress={() => { navigation.navigate("SignIn") }}
             />
 
         </DrawerContentScrollView>
@@ -188,8 +192,9 @@ export default function Index() {
                     }
                 >
                     <Drawer.Screen name="MainMenu" component={AppMenu} />
-
-
+                    <Drawer.Screen name="SignIn" component={SignIn} />
+                    <Stack.Screen name="SignUp" component={SignUp} />
+                    <Stack.Screen name="OTP" component={OTP} />
                 </Drawer.Navigator>
             </NavigationContainer>
         </AppBaseProvider >
