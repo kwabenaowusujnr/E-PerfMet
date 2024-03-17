@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { BLACK_COLOR, PRIMARY_COLOR, PRIMARY_VARIENT_COLOR, PRIMARY_VARIENT_DARK_COLOR } from "../const/color.";
-import { buttonTextFontSize, headerFontSize, normalFontSize, subHheaderFontSize } from "../const/values";
+import { buttonTextFontSize, formatPhoneNumberToGhana, headerFontSize, normalFontSize, subHheaderFontSize } from "../const/values";
 import OtpTextInput from "react-native-text-input-otp";
 import { doSendOTP, doUserRegistration } from "../providers/ApiProvider";
 
@@ -49,10 +49,17 @@ export default function OTP({ route, navigation }) {
     };
 
     const registerUser = async () => {
+
         setIsLoading(true);
         try {
 
             const response = await doUserRegistration(email, password, phoneNumber, pSID, otp);
+
+            console.log(response);
+            if (response) {
+
+                //navigation.navigate("HomeScreen");
+            }
 
         } catch (error) {
 

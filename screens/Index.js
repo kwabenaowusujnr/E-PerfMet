@@ -15,6 +15,9 @@ import { PRIMARY_VARIENT_DARK_COLOR } from "../const/color.";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import OTP from "./OTP";
+import { storeData } from "../const/util";
+import Profile from "./MainMenu/Profile";
+import Attendance from "./MainMenu/Attendance";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -112,69 +115,72 @@ function LeftPanelDrawerContent({ navigation }) {
             <DrawerItem
                 label={"Profile"}
                 icon={({ focused, color, size }) =>
-                    <FontAwesome5 name="user" size={size} color={color} />
+                    <FontAwesome5 name="user" size={size} color={PRIMARY_VARIENT_DARK_COLOR} />
                 }
+                onPress={() => { navigation.navigate("Profile") }}
             />
             <DrawerItem
                 label={"Attendance"}
                 icon={({ focused, color, size }) =>
-                    <AntDesign name="clockcircle" size={24} color="black" />
+                    <AntDesign name="clockcircle" size={size} color={PRIMARY_VARIENT_DARK_COLOR} />
                 }
+                onPress={() => { navigation.navigate("Attendance") }}
+
             />
             <DrawerItem
                 label={"Tasks"}
                 icon={({ focused, color, size }) =>
-                    <FontAwesome5 name="tasks" size={size} color={color} />
+                    <FontAwesome5 name="tasks" size={size} color={PRIMARY_VARIENT_DARK_COLOR} />
                 }
             />
             <DrawerItem
                 label={"Location"}
                 icon={({ focused, color, size }) =>
-                    <Entypo name="location" size={size} color={color} />
+                    <Entypo name="location" size={size} color={PRIMARY_VARIENT_DARK_COLOR} />
                 }
             />
             <DrawerItem
                 label={"My Files"}
                 icon={({ focused, color, size }) =>
-                    <FontAwesome name="files-o" size={size} color={color} />
+                    <FontAwesome name="files-o" size={size} color={PRIMARY_VARIENT_DARK_COLOR} />
                 }
             />
             <DrawerItem
                 label={"Calender"}
                 icon={({ focused, color, size }) =>
-                    <AntDesign name="calendar" size={size} color={color} />
+                    <AntDesign name="calendar" size={size} color={PRIMARY_VARIENT_DARK_COLOR} />
                 }
             />
             <DrawerItem
                 label={"Health & Fitness"}
                 icon={({ focused, color, size }) =>
-                    <Ionicons name="fitness" size={size} color={color} />
+                    <Ionicons name="fitness" size={size} color={PRIMARY_VARIENT_DARK_COLOR} />
                 }
             />
             <DrawerItem
                 label={"Incidents & Accidents"}
                 icon={({ focused, color, size }) =>
-                    <MaterialIcons name="pending-actions" size={size} color={color} />
+                    <MaterialIcons name="pending-actions" size={size} color={PRIMARY_VARIENT_DARK_COLOR} />
                 }
             />
             <DrawerItem
                 label={"Events & Trainings"}
                 icon={({ focused, color, size }) =>
-                    <MaterialCommunityIcons name="google-classroom" size={size} color={color} />
+                    <MaterialCommunityIcons name="google-classroom" size={size} color={PRIMARY_VARIENT_DARK_COLOR} />
                 }
             />
             <DrawerItem
                 label={"Settings & Support"}
                 icon={({ focused, color, size }) =>
-                    <MaterialIcons name="contact-support" size={size} color={color} />
+                    <MaterialIcons name="contact-support" size={size} color={PRIMARY_VARIENT_DARK_COLOR} />
                 }
             />
             <DrawerItem
                 label={"Logout"}
                 icon={({ focused, color, size }) =>
-                    <MaterialIcons name="logout" size={size} color={color} />
+                    <MaterialIcons name="logout" size={size} color={PRIMARY_VARIENT_DARK_COLOR} />
                 }
-                onPress={() => { navigation.navigate("SignIn") }}
+                onPress={() => { storeData(true, "IsValidated"); navigation.navigate("SignIn") }}
             />
 
         </DrawerContentScrollView>
@@ -195,6 +201,9 @@ export default function Index() {
                     <Drawer.Screen name="SignIn" component={SignIn} />
                     <Stack.Screen name="SignUp" component={SignUp} />
                     <Stack.Screen name="OTP" component={OTP} />
+
+                    <Stack.Screen name="Profile" component={Profile} />
+                    <Stack.Screen name="Attendance" component={Attendance} />
                 </Drawer.Navigator>
             </NavigationContainer>
         </AppBaseProvider >

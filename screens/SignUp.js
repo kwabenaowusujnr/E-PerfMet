@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { BLACK_COLOR, PRIMARY_COLOR, PRIMARY_VARIENT_COLOR, PRIMARY_VARIENT_DARK_COLOR } from "../const/color.";
-import { headerFontSize, normalFontSize } from "../const/values";
+import { formatPhoneNumberToGhana, headerFontSize, normalFontSize } from "../const/values";
 import PhoneNumberValidator from "../components/PhoneNumberValidator";
 
 export default function SignUp({ navigation }) {
@@ -38,7 +38,7 @@ export default function SignUp({ navigation }) {
     }
 
     const getPhoneNumber = (phoneNo) => {
-        setPhoneNumber(phoneNo);
+        setPhoneNumber(formatPhoneNumberToGhana(phoneNo));
     }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }} >

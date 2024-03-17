@@ -1,10 +1,25 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Entypo } from '@expo/vector-icons'
 import { PRIMARY_VARIENT_DARK_COLOR } from '../const/color.'
+import { getData } from '../const/util'
 
 export default function Home({ navigation }) {
+    const [IsValidated, setIsValidated] = useState(false);
+
+    const getStatus = async () => {
+        const response = await getData("IsValidated");
+        setIsValidated(response);
+        if (!response) {
+            navigation.navigate("SignIn");
+        }
+    };
+
+    useEffect(() => {
+        getStatus();
+    }, []);
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }} >
             <View style={{ flex: 1, backgroundColor: "#f7f5f5" }}>

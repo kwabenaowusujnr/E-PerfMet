@@ -1,8 +1,9 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { OnboardingImages } from "../const/images";
 import Swiper from "react-native-swiper";
 import { PRIMARY_COLOR, PRIMARY_VARIENT_DARK_COLOR, WHITE_COLOR } from "../const/color.";
+import { getData } from "../const/util";
 
 export default function Welcome({ navigation }) {
 
@@ -11,6 +12,10 @@ export default function Welcome({ navigation }) {
         { id: 2, title: "Tasks", desc: "Organize your to-dos and accomplish your goals.", image: OnboardingImages.onBoard2 },
         { id: 3, title: "Incidents & Accidents", desc: "Report and manage incidents and accidents seamlessly.", image: OnboardingImages.onBoard3 },
     ];
+
+
+
+
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <Swiper

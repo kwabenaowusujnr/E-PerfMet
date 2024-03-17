@@ -4,12 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { BLACK_COLOR, PRIMARY_COLOR, PRIMARY_VARIENT_COLOR, PRIMARY_VARIENT_DARK_COLOR } from "../const/color.";
 import { headerFontSize, normalFontSize } from "../const/values";
+import { storeData } from "../const/util";
 
 export default function SignIn({ navigation }) {
     const [isPasaswordShow, setIsPasswordShow] = useState(false)
 
     const handleLogin = () => {
-
+        storeData(true, "IsValidated");
+        navigation.navigate("MainMenu");
     }
 
     return (
